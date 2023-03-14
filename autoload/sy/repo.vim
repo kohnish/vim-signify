@@ -69,8 +69,16 @@ function! s:write_buffer(bufnr, file)
   call writefile(bufcontents, a:file)
 endfunction
 
-" sy#get_diff {{{1
+
+let s:get_diff_timer_id = -1
 function! sy#repo#get_diff(bufnr, vcs, func) abort
+  if s:get_diff_timer_id == -1
+    let s:get_diff_timer_id = timer_start(200, {_->sy#repo#get_diff_task(a:bufnr, a:vcs, a:func)})
+  endif
+endfunction
+
+" sy#get_diff {{{1
+function! sy#repo#get_diff_task(bufnr, vcs, func) abort
   call sy#verbose('sy#repo#get_diff()', a:vcs)
 
   let job_id = getbufvar(a:bufnr, 'sy_job_id_'.a:vcs)
@@ -111,6 +119,7 @@ function! sy#repo#get_diff(bufnr, vcs, func) abort
     let options.stdoutbuf = split(s:run(a:vcs), '\n')
     call s:handle_diff(options, v:shell_error)
   endif
+  let s:get_diff_timer_id = -1
 endfunction
 
 " s:handle_diff {{{1

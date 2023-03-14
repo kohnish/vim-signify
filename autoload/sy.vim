@@ -137,8 +137,8 @@ function! sy#set_buflocal_autocmds(bufnr) abort
     execute printf('autocmd WinEnter     <buffer=%d> call sy#start()', a:bufnr)
     execute printf('autocmd BufWritePost <buffer=%d> call sy#start()', a:bufnr)
 
-    " execute printf('autocmd CursorHold   <buffer=%d> call sy#start()', a:bufnr)
-    " execute printf('autocmd CursorHoldI  <buffer=%d> call sy#start()', a:bufnr)
+    execute printf('autocmd CursorHold   <buffer=%d> call sy#start()', a:bufnr)
+    execute printf('autocmd CursorHoldI  <buffer=%d> call sy#start()', a:bufnr)
 
     execute printf('autocmd FocusGained  <buffer=%d> SignifyRefresh', a:bufnr)
 
