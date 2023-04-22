@@ -72,9 +72,10 @@ endfunction
 
 let s:get_diff_timer_id = -1
 function! sy#repo#get_diff(bufnr, vcs, func) abort
-  if s:get_diff_timer_id == -1
-    let s:get_diff_timer_id = timer_start(200, {_->sy#repo#get_diff_task(a:bufnr, a:vcs, a:func)})
+  if s:get_diff_timer_id != -1
+    call timer_stop(s:get_diff_timer_id)
   endif
+  let s:get_diff_timer_id = timer_start(200, {_->sy#repo#get_diff_task(a:bufnr, a:vcs, a:func)})
 endfunction
 
 " sy#get_diff {{{1
